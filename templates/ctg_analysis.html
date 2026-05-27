@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Fetal-Net - CTG Data Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ctg_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar glass-nav">
+        <div class="nav-brand">Transparent Fetal-Net</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/ctg_analysis" class="active">CTG Analysis</a></li>
+            <li><a href="/dashboard">Active Learning Dashboard</a></li>
+            <li><a href="/reports">Reports</a></li>
+            <li><a href="/#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Title Section -->
+    <header class="page-title-section animated-gradient-bg">
+        <h1>CTG Data Analysis</h1>
+        <p>Enter new CTG values to generate fetal health prediction and clinical report</p>
+    </header>
+
+    <main class="container">
+        <!-- CTG Input Form Section -->
+        <section class="card creative-card form-section border-0">
+            <h2>Enter CTG Data</h2>
+            <form id="ctg-form">
+                <div class="form-grid">
+                    <!-- Patient & Doctor Info -->
+                    <div class="input-group">
+                        <label for="patient_id">Patient ID</label>
+                        <input type="text" id="patient_id" name="patient_id" placeholder="e.g. PT-1004" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="doctor_name">Doctor Name</label>
+                        <input type="text" id="doctor_name" name="doctor_name" placeholder="Dr. Smith" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- 21 CTG Features -->
+                    <div class="input-group">
+                        <label for="baseline_value">Baseline Value (FHR)</label>
+                        <input type="number" step="any" id="baseline_value" name="baseline_value" value="132.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="accelerations">Accelerations</label>
+                        <input type="number" step="any" id="accelerations" name="accelerations" value="0.006" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="fetal_movement">Fetal Movement</label>
+                        <input type="number" step="any" id="fetal_movement" name="fetal_movement" value="0.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="uterine_contractions">Uterine Contractions</label>
+                        <input type="number" step="any" id="uterine_contractions" name="uterine_contractions" value="0.006" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="light_decelerations">Light Decelerations</label>
+                        <input type="number" step="any" id="light_decelerations" name="light_decelerations" value="0.003" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="severe_decelerations">Severe Decelerations</label>
+                        <input type="number" step="any" id="severe_decelerations" name="severe_decelerations" value="0.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="prolongued_decelerations">Prolonged Decelerations</label>
+                        <input type="number" step="any" id="prolongued_decelerations" name="prolongued_decelerations" value="0.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="abnormal_short_term_variability">Abnormal Short Term Variability</label>
+                        <input type="number" step="any" id="abnormal_short_term_variability" name="abnormal_short_term_variability" value="17.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="mean_value_short_term_variability">Mean Value of Short Term Variability</label>
+                        <input type="number" step="any" id="mean_value_short_term_variability" name="mean_value_short_term_variability" value="2.1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="percentage_of_time_with_abnormal_long_term_variability">Perc of Time Abnormal LTV</label>
+                        <input type="number" step="any" id="percentage_of_time_with_abnormal_long_term_variability" name="percentage_of_time_with_abnormal_long_term_variability" value="0.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="mean_value_long_term_variability">Mean Value of Long Term Variability</label>
+                        <input type="number" step="any" id="mean_value_long_term_variability" name="mean_value_long_term_variability" value="10.4" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_width">Histogram Width</label>
+                        <input type="number" step="any" id="histogram_width" name="histogram_width" value="130.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_min">Histogram Min</label>
+                        <input type="number" step="any" id="histogram_min" name="histogram_min" value="68.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_max">Histogram Max</label>
+                        <input type="number" step="any" id="histogram_max" name="histogram_max" value="198.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_number_of_peaks">Histogram Peaks</label>
+                        <input type="number" step="any" id="histogram_number_of_peaks" name="histogram_number_of_peaks" value="6.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_number_of_zeroes">Histogram Zeroes</label>
+                        <input type="number" step="any" id="histogram_number_of_zeroes" name="histogram_number_of_zeroes" value="1.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_mode">Histogram Mode</label>
+                        <input type="number" step="any" id="histogram_mode" name="histogram_mode" value="141.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_mean">Histogram Mean</label>
+                        <input type="number" step="any" id="histogram_mean" name="histogram_mean" value="136.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_median">Histogram Median</label>
+                        <input type="number" step="any" id="histogram_median" name="histogram_median" value="140.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_variance">Histogram Variance</label>
+                        <input type="number" step="any" id="histogram_variance" name="histogram_variance" value="12.0" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="histogram_tendency">Histogram Tendency</label>
+                        <input type="number" step="any" id="histogram_tendency" name="histogram_tendency" value="0.0" required>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="analyze-btn">Analyze CTG Data</button>
+                    <button type="reset" class="btn btn-secondary">Reset Form</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Prediction Result Section (hidden initially) -->
+        <section class="card creative-card result-section hidden border-0" id="result-section">
+            <div class="result-header">
+                <h2>AI Prediction Report</h2>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span id="fetal-health-status"></span>
+                </div>
+            </div>
+
+            <div class="result-metrics">
+                <div class="metric-box">
+                    <span class="metric-label">Confidence Score</span>
+                    <span class="metric-value" id="confidence-score">0%</span>
+                </div>
+                <div class="metric-box">
+                    <span class="metric-label">Risk Level</span>
+                    <span class="metric-value risk" id="risk-level">Low</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="report-grid">
+                <!-- Explainable AI Section -->
+                <div class="xai-section">
+                    <h3>Model Explanation</h3>
+                    <p class="subtitle">Top Contributing Features (SHAP Explainer AI)</p>
+                    <div id="shap-container" class="shap-bars">
+                        <!-- SHAP bars added dynamically here -->
+                    </div>
+                </div>
+
+                <!-- Clinical Summary Report -->
+                <div class="summary-section">
+                    <h3>Clinical Summary</h3>
+                    <div class="report-card">
+                        <p id="clinical-summary-text">The CTG data indicates a normal fetal condition. Continuous monitoring is recommended.</p>
+                    </div>
+
+                    <!-- Recommended Action -->
+                    <h3>Suggested Clinical Action</h3>
+                    <div class="action-box">
+                        <ul id="recommended-actions">
+                            <li>Continue Routine Monitoring</li>
+                        </ul>
+                    </div>
+                    <p class="disclaimer">Disclaimer: This AI system provides decision support and should not replace clinical judgment.</p>
+                    
+                    <div class="report-actions" id="report-action-buttons">
+                        <button class="btn btn-outline" id="download-pdf-btn">Download Report (PDF)</button>
+                        <button class="btn btn-outline" id="save-report-btn">Save Patient Record</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTG Graph Visualization Upload -->
+        <section class="card creative-card graph-upload-section border-0">
+            <h2>Uploaded CTG Pattern Visualization</h2>
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="ctg-image-upload" accept="image/*" hidden>
+                <div class="upload-placeholder" id="upload-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <p>Click to upload actual CTG graph image or signal file</p>
+                    <button type="button" class="btn btn-secondary btn-small" onclick="document.getElementById('ctg-image-upload').click()">Browse Files</button>
+                </div>
+                <div class="image-preview hidden" id="image-preview-container">
+                    <img id="graph-preview" alt="Uploaded CTG Pattern">
+                    <button type="button" class="btn btn-secondary btn-small remove-btn" id="remove-image-btn" style="margin-top: 1rem;">Remove Image</button>
+                </div>
+            </div>
+            <div class="graph-info">
+                <p><strong>Note:</strong> Uploading the CTG graph allows doctors to visually analyze fetal heart rate patterns and uterine contractions alongside the AI prediction.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>Transparent Fetal-Net</strong></p>
+        <p>AI-powered fetal health monitoring system</p>
+        <p>Built for clinical decision support</p>
+        <p>&copy; 2026 Developer</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='ctg_script.js') }}"></script>
+</body>
+</html>

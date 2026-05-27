@@ -1,0 +1,297 @@
+:root {
+    --primary-blue: #2563eb;
+    --nav-bg: #ffffff;
+    --bg-color: #f0f9ff;
+    --text-muted: #64748b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --border-color: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color) !important;
+    color: #334155;
+    -webkit-font-smoothing: antialiased;
+}
+
+.fetal-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--nav-bg);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.fetal-nav-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.fetal-nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0px !important;
+    padding-left: 0px !important;
+}
+
+.fetal-nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.fetal-nav-links a:hover, .fetal-nav-links a.active {
+    color: var(--primary-blue);
+}
+
+.fetal-page-title-section {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.fetal-page-title-section h1 {
+    font-size: 2.25rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.fetal-page-title-section p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 0px;
+}
+
+/* Soft Clinical Theme for Metric Cards (Replacing Gradients) */
+.soft-card {
+    background-color: #ffffff !important;
+    border: 1px solid var(--border-color);
+}
+.soft-text-dark { color: #0f172a !important; }
+
+.soft-info { border-left: 4px solid #0ea5e9; }
+.soft-icon-info { color: #0ea5e9 !important; opacity: 0.8; }
+
+.soft-success { border-left: 4px solid #10b981; }
+.soft-icon-success { color: #10b981 !important; opacity: 0.8; }
+
+.soft-warning { border-left: 4px solid #f59e0b; }
+.soft-icon-warning { color: #f59e0b !important; opacity: 0.8; }
+
+.soft-primary { border-left: 4px solid var(--primary-blue); }
+.soft-icon-primary { color: var(--primary-blue) !important; opacity: 0.8; }
+
+/* Card Styling */
+.card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.metric-card {
+    border: none;
+    border-radius: 16px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.interactive-card {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.interactive-card:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+}
+
+.feedback-card {
+    background: linear-gradient(to right, #ffffff, #f8fafc);
+}
+
+/* Feature Table Scrolling */
+.feature-table-container {
+    height: 700px;
+    overflow-y: auto;
+}
+
+.table th {
+    font-weight: 600;
+    color: #475569;
+    background-color: #f8fafc !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    font-size: 0.95rem;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9; 
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1; 
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; 
+}
+
+/* Form Styling */
+.form-select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4) !important;
+}
+.btn-primary {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Landing Page Specific CSS */
+.landing-hero {
+    background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+    min-height: 85vh;
+}
+.hero-image-wrapper {
+    padding: 1rem;
+    background: white;
+    border-radius: 1.5rem;
+}
+.hero-image-wrapper img {
+    border: 1px solid var(--border-color);
+}
+.landing-btn {
+    border-radius: 50px;
+    font-weight: 600;
+}
+.landing-btn-outline {
+    border-radius: 50px;
+    font-weight: 600;
+}
+.title-underline {
+    height: 4px;
+    width: 60px;
+    background-color: var(--primary-blue);
+    border-radius: 2px;
+}
+.feature-grid-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 1rem;
+}
+.feature-grid-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hover-zoom {
+    transition: transform 0.3s ease;
+}
+.hover-zoom:hover {
+    transform: scale(1.02);
+}
+.workflow-section {
+    position: relative;
+    overflow: hidden;
+}
+.workflow-row {
+    margin-top: 3rem;
+}
+.workflow-line {
+    position: absolute;
+    top: 50px;
+    left: 8%;
+    right: 8%;
+    height: 3px;
+    background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 50%, #e2e8f0 100%);
+    z-index: 0;
+}
+.workflow-step {
+    width: 100px;
+    height: 100px;
+    z-index: 1;
+    border: 3px solid #f8fafc;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.workflow-step:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-blue);
+}
+.module-card {
+    border-radius: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+.clinical-list li {
+    font-size: 1.1rem;
+}
+
+/* Creative UI Harmonization classes */
+.glass-nav {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.creative-card {
+    background: #ffffff;
+    border-radius: 1.25rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.creative-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 40px rgba(37, 99, 235, 0.08) !important;
+}
+
+.animated-gradient-bg {
+    background: linear-gradient(-45deg, #e0f2fe, #bae6fd, #f0f9ff, #ffffff);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Fetal-Net - Healthcare AI System</title>
+    <!-- Bootstrap CSS for layout structures -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- ctg_style.css for standard design variables if needed -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='ctg_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="landing-body" style="background-color: var(--bg-color);">
+    <!-- Navigation Bar -->
+    <nav class="fetal-navbar glass-nav sticky-top">
+        <div class="fetal-nav-brand">Transparent Fetal-Net</div>
+        <ul class="fetal-nav-links">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/ctg_analysis">CTG Analysis</a></li>
+            <li><a href="/dashboard">Active Learning Dashboard</a></li>
+            <li><a href="/reports">Reports</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="landing-hero d-flex align-items-center animated-gradient-bg">
+        <div class="container py-5">
+            <div class="row align-items-center py-5">
+                <div class="col-lg-6 hero-text pe-lg-5 mb-5 mb-lg-0">
+                    <h1 class="display-4 fw-bold text-dark mb-3">Transparent Fetal-Net</h1>
+                    <h2 class="h4 text-primary mb-4 fw-semibold" style="color: var(--primary-blue) !important;">AI-Powered CTG Analysis and Fetal Health Monitoring</h2>
+                    <p class="lead text-muted mb-5">
+                        A smart healthcare AI system that analyzes Cardiotocography (CTG) data and provides accurate fetal health prediction, explainable AI insights, and clinical decision support for doctors and clinicians.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="/ctg_analysis" class="btn btn-primary landing-btn shadow-sm"><i class="bi bi-activity me-2"></i>Analyze CTG Data</a>
+                        <a href="/dashboard" class="btn btn-secondary landing-btn-outline"><i class="bi bi-cpu me-2"></i>Active Learning Dashboard</a>
+                        <a href="/reports" class="btn btn-outline-primary bg-white landing-btn-outline shadow-sm"><i class="bi bi-file-earmark-medical me-2"></i>View Reports</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="hero-image-wrapper shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Medical CTG Monitoring" class="img-fluid rounded-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Overview -->
+    <section class="py-5 bg-white" id="about">
+        <div class="container py-5 text-center">
+            <div class="row justify-content-center">
+                <div class="col-md-9">
+                    <h2 class="fw-bold mb-4 text-dark">Advanced CTG Monitoring and AI Decision Support</h2>
+                    <div class="title-underline mx-auto mb-4"></div>
+                    <p class="fs-5 text-muted lh-lg">
+                        Transparent Fetal-Net provides intelligent CTG analysis using machine learning and explainable AI to support fetal health monitoring.<br><br>
+                        The system analyzes fetal heart rate and uterine contractions to classify fetal condition into <strong>Normal</strong>, <strong>Suspect</strong>, or <strong>Pathological</strong> categories and provides transparent clinical explanations for healthcare practitioners.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="py-5" style="background-color: #f8fafc;">
+        <div class="container py-5">
+            <h2 class="text-center fw-bold mb-5 text-dark">Key Features</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card creative-card h-100 feature-grid-card shadow-sm border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-primary text-white mx-auto mb-4">
+                                <i class="bi bi-heart-pulse fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3 text-dark">AI-Based CTG Analysis</h5>
+                            <p class="text-muted small">Predict fetal health condition using highly accurate XGBoost machine learning models.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card creative-card h-100 feature-grid-card shadow-sm border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle text-white mx-auto mb-4" style="background-color: #0ea5e9;">
+                                <i class="bi bi-diagram-3 fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3 text-dark">Explainable AI (SHAP)</h5>
+                            <p class="text-muted small">Shows the exact important CTG features influencing each real-time AI prediction.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card creative-card h-100 feature-grid-card shadow-sm border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle text-white mx-auto mb-4" style="background-color: #10b981;">
+                                <i class="bi bi-person-gear fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3 text-dark">Active Learning Dashboard</h5>
+                            <p class="text-muted small">Human-in-the-loop continuous learning paradigm improves model performance over time.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 feature-grid-card shadow-sm border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle text-white mx-auto mb-4" style="background-color: #f59e0b;">
+                                <i class="bi bi-clipboard2-pulse fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3 text-dark">Clinical Reports</h5>
+                            <p class="text-muted small">Generate formatted PDF medical reports and store patient CTG histories for monitoring.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clinical Decision Support -->
+    <section class="py-5 align-items-center bg-white">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 px-lg-5">
+                    <h2 class="fw-bold mb-4 text-dark">Clinical Decision Support System</h2>
+                    <p class="lead text-muted mb-4">The system analyzes important detailed CTG clinical parameters such as:</p>
+                    <ul class="list-unstyled clinical-list fs-5 text-muted mb-4">
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-primary me-3 fs-4"></i>Baseline fetal heart rate</li>
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-primary me-3 fs-4"></i>Accelerations</li>
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-primary me-3 fs-4"></i>Decelerations</li>
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-primary me-3 fs-4"></i>Uterine contractions</li>
+                        <li class="mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill text-primary me-3 fs-4"></i>Variability patterns</li>
+                    </ul>
+                    <div class="p-4 bg-light rounded-3 border-start border-primary border-4 shadow-sm">
+                        <p class="fs-5 fw-semibold mb-0 text-dark">
+                            ...and provides AI-supported clinical decision-making to detect fetal risk early.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+                    <div class="position-relative d-inline-block rounded-4 overflow-hidden" style="background-color: #f2f2f2;">
+                        <img src="https://www.gehealthcare.in/-/jssmedia/images/t/2018/08/14/trium_head2.jpg?h=670&iar=0&w=607&rev=2598e0bc050e4bd0b4974b9b51039319&hash=071DCE15A6EE56A7654157EEBF30CAF5" alt="Clinical Decision CTG Monitoring" class="img-fluid hover-zoom" style="max-width: 100%; border-radius: 1.5rem;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="py-5 bg-light workflow-section" style="background-color: #f8fafc !important;">
+        <div class="container py-5 text-center">
+            <h2 class="fw-bold mb-5 text-dark">How Transparent Fetal-Net Works</h2>
+            <div class="row position-relative workflow-row justify-content-center px-4">
+                <div class="workflow-line d-none d-lg-block"></div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="workflow-step position-relative bg-white rounded-circle shadow mx-auto d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-input-cursor-text fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="mt-4 fw-bold text-dark">Enter CTG Data</h6>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="workflow-step position-relative bg-white rounded-circle shadow mx-auto d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-robot fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="mt-4 fw-bold text-dark">AI Predicts Health</h6>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="workflow-step position-relative bg-white rounded-circle shadow mx-auto d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-magic fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="mt-4 fw-bold text-dark">SHAP Explains</h6>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="workflow-step position-relative bg-white rounded-circle shadow mx-auto d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-file-earmark-pdf fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="mt-4 fw-bold text-dark">Report Generated</h6>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="workflow-step position-relative bg-white rounded-circle shadow mx-auto d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-server fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="mt-4 fw-bold text-dark">Reports Stored</h6>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="workflow-step position-relative bg-white rounded-circle shadow mx-auto d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-graph-up-arrow fs-2 text-primary"></i>
+                    </div>
+                    <h6 class="mt-4 fw-bold text-dark">Learning Improves Model</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Modules Section -->
+    <section class="py-5 bg-white">
+        <div class="container py-5">
+            <h2 class="text-center fw-bold mb-5 text-dark">System Modules</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card creative-card h-100 module-card border-0 p-4">
+                        <div class="card-body d-flex flex-column text-center px-2">
+                            <h4 class="card-title fw-bold text-dark mb-3">CTG Analysis</h4>
+                            <p class="card-text text-muted flex-grow-1">Analyze live CTG data, extract intelligent insights, and get instant fetal health predictions supported by XAI.</p>
+                            <a href="/ctg_analysis" class="btn btn-outline-primary d-block w-100 mt-4 rounded-pill fw-bold">Go to CTG Analysis</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card creative-card h-100 module-card shadow-lg border-0 p-4" style="border-top: 4px solid var(--primary-blue) !important; transform: translateY(-10px);">
+                        <div class="card-body d-flex flex-column text-center px-2">
+                            <h4 class="card-title fw-bold text-dark mb-3">Active Learning Dashboard</h4>
+                            <p class="card-text text-muted flex-grow-1">Improve machine learning model accuracy with human expert feedback across queried samples directly.</p>
+                            <a href="/dashboard" class="btn btn-primary d-block w-100 mt-4 rounded-pill fw-bold">Open Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 module-card shadow border-0 p-4">
+                        <div class="card-body d-flex flex-column text-center px-2">
+                            <h4 class="card-title fw-bold text-dark mb-3">Reports</h4>
+                            <p class="card-text text-muted flex-grow-1">View, track, and manage all saved graphical CTG analysis reports safely logged within the system archive.</p>
+                            <a href="/reports" class="btn btn-outline-primary d-block w-100 mt-4 rounded-pill fw-bold">View Reports</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+        <div class="container py-5">
+            <h2 class="text-center fw-bold text-white mb-5">Benefits of Transparent Fetal-Net</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="row g-4 text-center">
+                        <div class="col-md-4"><div class="p-3 fs-5 text-light fw-medium"><i class="bi bi-shield-check text-success d-block display-4 mb-3"></i>Early Risk Detection</div></div>
+                        <div class="col-md-4"><div class="p-3 fs-5 text-light fw-medium"><i class="bi bi-lightbulb text-warning d-block display-4 mb-3"></i>AI Clinical Support</div></div>
+                        <div class="col-md-4"><div class="p-3 fs-5 text-light fw-medium"><i class="bi bi-eye text-info d-block display-4 mb-3"></i>Explainable Predictions</div></div>
+                        <div class="col-md-4"><div class="p-3 fs-5 text-light fw-medium"><i class="bi bi-lightning-charge text-danger d-block display-4 mb-3"></i>Real-time Analysis</div></div>
+                        <div class="col-md-4"><div class="p-3 fs-5 text-light fw-medium"><i class="bi bi-arrow-repeat text-primary d-block display-4 mb-3"></i>Continuous Improvement</div></div>
+                        <div class="col-md-4"><div class="p-3 fs-5 text-light fw-medium"><i class="bi bi-clipboard2-pulse text-white d-block display-4 mb-3"></i>Better Monitoring</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 text-center mt-auto" style="background-color: #e2e8f0;">
+        <div class="container">
+            <h5 class="fw-bold text-dark mb-2">Transparent Fetal-Net</h5>
+            <p class="text-muted mb-1">AI-powered fetal health monitoring system</p>
+            <p class="text-muted mb-1">Healthcare AI Project</p>
+            <p class="text-muted mb-0 mt-3" style="font-size: 0.9rem;">Developed by Sreeja &copy; 2026</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

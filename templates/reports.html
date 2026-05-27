@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Fetal-Net - Patient Reports</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ctg_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .report-grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .report-card-item {
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .report-card-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .report-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .report-pill {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .report-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #f1f5f9;
+        }
+        .no-reports {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-muted);
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar glass-nav">
+        <div class="nav-brand">Transparent Fetal-Net</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/ctg_analysis">CTG Analysis</a></li>
+            <li><a href="/dashboard">Active Learning Dashboard</a></li>
+            <li><a href="/reports" class="active">Reports</a></li>
+            <li><a href="/#about">About</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-title-section animated-gradient-bg">
+        <h1>Patient Records Dashboard</h1>
+        <p>View saved CTG analysis reports and clinical recommendations</p>
+    </header>
+
+    <main class="container">
+        <div class="report-grid-view" id="reports-container">
+            <div class="no-reports">Loading reports...</div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('reports-container');
+            
+            try {
+                const res = await fetch('/api/get_reports');
+                const reports = await res.json();
+                
+                if (!reports || reports.length === 0) {
+                    container.innerHTML = '<div class="no-reports"><h2>No patient records found.</h2><p>Saved reports from the CTG Analysis page will appear here.</p></div>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                const labels = ['Normal', 'Suspect', 'Pathological'];
+                const classMaps = ['status--normal', 'status--suspect', 'status--pathological'];
+
+                reports.forEach(r => {
+                    const card = document.createElement('div');
+                    card.className = 'report-card-item creative-card border-0';
+                    
+                    let p = 0;
+                    if (r.result.raw_prediction_idx !== undefined) {
+                        p = r.result.raw_prediction_idx;
+                    } else if (typeof r.result.prediction === 'number') {
+                        p = r.result.prediction;
+                    }
+                    
+                    const dateObj = new Date(r.timestamp);
+                    const dateStr = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString();
+                    
+                    let conf;
+                    if (r.result.confidence !== undefined) {
+                        conf = r.result.confidence.toFixed(1);
+                    } else if (r.result.probabilities && r.result.probabilities[p] !== undefined) {
+                        conf = (r.result.probabilities[p] * 100).toFixed(1);
+                    } else {
+                        conf = "N/A";
+                    }
+                    
+                    let imgHtml = '';
+                    if (r.image_data) {
+                        imgHtml = `<img src="${r.image_data}" class="report-image" alt="CTG Graph">`;
+                    } else {
+                        imgHtml = `<div class="report-image" style="display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#94a3b8">No Image Provided</div>`;
+                    }
+
+                    let featuresHtml = '<div class="report-features hidden" style="margin-top:1rem; font-size:0.8rem; background:#f1f5f9; padding:1rem; border-radius:8px;">';
+                    featuresHtml += '<h4 style="margin-bottom:0.5rem; color:var(--primary-blue);">Clinical Parameters</h4><ul style="list-style:none; columns:2; padding:0; margin-bottom:1rem;">';
+                    for (const [k, v] of Object.entries(r.features)) {
+                        featuresHtml += `<li><strong>${k.replace(/_/g, ' ')}:</strong> ${v}</li>`;
+                    }
+                    featuresHtml += '</ul><h4 style="margin-bottom:0.5rem; color:var(--primary-blue);">Top Predictors (SHAP)</h4><ul style="padding-left:1.5rem;">';
+                    
+                    if (r.result.top_features) {
+                        r.result.top_features.forEach(s => {
+                            featuresHtml += `<li>${s.feature}: ${s.value.toFixed(3)}</li>`;
+                        });
+                    } else if (r.result.shap_values && r.result.feature_names) {
+                        const shaps = r.result.shap_values.map((v, i) => ({name: r.result.feature_names[i], val: v}));
+                        shaps.sort((a,b) => Math.abs(b.val) - Math.abs(a.val)).slice(0,5).forEach(s => {
+                            featuresHtml += `<li>${s.name.replace(/_/g, ' ')}: ${s.val.toFixed(3)}</li>`;
+                        });
+                    }
+                    featuresHtml += '</ul></div>';
+
+                    card.innerHTML = `
+                        <div class="pdf-content" style="padding: 10px; background: white;">
+                            <div class="report-header">
+                                <div>
+                                    <h3>${r.metadata.patient_id || 'Unknown Patient'}</h3>
+                                    <div class="report-meta">Dr. ${r.metadata.doctor_name || 'N/A'} • ${r.metadata.date || 'No Date'}</div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:0.5rem;">
+                                    <div class="report-pill ${classMaps[p]}">${labels[p]}</div>
+                                    <button class="btn btn-outline btn-small delete-report-btn" data-timestamp="${r.timestamp}" style="padding:0.2rem 0.4rem; border-color:#ef4444; color:#ef4444;" title="Delete Record">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+                            ${imgHtml}
+                            <div class="report-details" style="font-size: 0.9rem; margin-top:0.5rem;">
+                                <p><strong>Confidence:</strong> ${conf}%</p>
+                                <p style="margin-top: 0.25rem; margin-bottom: 0.5rem; color: #64748b; font-size: 0.8rem;">Saved: ${dateStr}</p>
+                            </div>
+                            ${featuresHtml}
+                        </div>
+                        <div style="display:flex; gap:0.5rem; margin-top: auto;">
+                            <button class="btn btn-outline btn-small view-details-btn" style="flex:1;">View Details</button>
+                            <button class="btn btn-primary btn-small download-pdf-btn" style="flex:1;">PDF</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+
+                    const viewBtn = card.querySelector('.view-details-btn');
+                    const featuresDiv = card.querySelector('.report-features');
+                    viewBtn.addEventListener('click', () => {
+                        featuresDiv.classList.toggle('hidden');
+                        viewBtn.textContent = featuresDiv.classList.contains('hidden') ? 'View Details' : 'Hide Details';
+                    });
+
+                    const pdfBtn = card.querySelector('.download-pdf-btn');
+                    pdfBtn.addEventListener('click', () => {
+                        const wasHidden = featuresDiv.classList.contains('hidden');
+                        if(wasHidden) featuresDiv.classList.remove('hidden');
+                        
+                        const pdfContent = card.querySelector('.pdf-content');
+                        
+                        // Temporarily hide the delete button in PDF
+                        const delBtnElement = card.querySelector('.delete-report-btn');
+                        if (delBtnElement) delBtnElement.style.display = 'none';
+                        
+                        const opt = {
+                            margin:       0.5,
+                            filename:     `Report_${r.metadata.patient_id || 'patient'}.pdf`,
+                            image:        { type: 'jpeg', quality: 0.98 },
+                            html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+                            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+                        html2pdf().set(opt).from(pdfContent).save().then(() => {
+                            if(wasHidden) featuresDiv.classList.add('hidden');
+                            if (delBtnElement) delBtnElement.style.display = 'inline-block';
+                        });
+                    });
+                    
+                    const delBtn = card.querySelector('.delete-report-btn');
+                    delBtn.addEventListener('click', async () => {
+                        if (confirm('Are you sure you want to delete this specific patient record?')) {
+                            const ts = delBtn.getAttribute('data-timestamp');
+                            const res = await fetch('/api/delete_report', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ timestamp: ts })
+                            });
+                            if (res.ok) {
+                                card.remove();
+                                if (container.children.length === 0) {
+                                    container.innerHTML = '<div class="no-reports"><h2>No patient records found.</h2></div>';
+                                }
+                            } else {
+                                alert("Failed to delete record.");
+                            }
+                        }
+                    });
+                });
+
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = '<div class="no-reports" style="color:#ef4444;">Failed to load reports.</div>';
+            }
+        });
+    </script>
+</body>
+</html>

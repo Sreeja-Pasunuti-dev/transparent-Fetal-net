@@ -1,0 +1,14 @@
+# Data Handling
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Machine Learning & AI
+scikit-learn>=1.0.0
+xgboost>=1.6.0
+modAL-python>=0.4.2
+shap>=0.41.0
+
+# Visualization & Frontend
+matplotlib>=3.5.0
+seaborn>=0.11.0
+streamlit>=1.15.0
